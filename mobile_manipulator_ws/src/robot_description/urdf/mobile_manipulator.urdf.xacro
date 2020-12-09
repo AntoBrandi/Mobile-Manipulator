@@ -1,9 +1,78 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://ros.org/wiki/xacro" name="mobile_manipulator" >
 
-    <xacro:include filename="$(find robot_description)/urdf/robot_base.urdf.xacro" />
-    <xacro:include filename="$(find robot_description)/urdf/robot_arm.urdf.xacro" />
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="mobile_manipulator">
 
-    <xacro:arm_joint prefix="arm_base_link" type="continuous" axis="0 0 1" parent="base_link" child="arm_base" originxyz="0.20 0.0 0.145" originrpy="0 0 0"/>
+  <!--################################# BASE LINKS #####################################-->
+  <xacro:include filename="$(find robot_description)/urdf/robot_base_essentials.xacro" />
+  <xacro:include filename="$(find robot_description)/urdf/gazebo_base_essentials.xacro" />
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0.0030946 4.78250032638821E-11 0.053305" rpy="0 0 0" />
+      <mass value="47.873" />
+      <inertia ixx="0.774276574699151" ixy="-1.03781944357671E-10" ixz="0.00763014265820928" iyy="1.64933255189991" iyz="1.09578155845563E-12" izz="2.1239326987473" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5707963267949 0 3.14" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/robot_base.stl" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.5707963267949 0 3.14" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/robot_base.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <xacro:robot_wheel prefix="front_left"/>
+  <xacro:robot_wheel prefix="front_right"/>
+  <xacro:robot_wheel prefix="rear_left"/>
+  <xacro:robot_wheel prefix="rear_right"/>
+
+  <!--############################## ARM LINKS ########################################-->
+  <xacro:include filename="$(find robot_description)/urdf/robot_arm_essentials.xacro" />
+  <xacro:include filename="$(find robot_description)/urdf/gazebo_arm_essentials.xacro" />
+  <xacro:arm attach="false"/>
+
+  <!--############################## BASE JOINTS ########################################-->
+  <xacro:wheel_joint prefix="front_left" origin="0.220 0.250 0"/>
+  <xacro:wheel_joint prefix="front_right" origin="0.220 -0.250 0"/>
+  <xacro:wheel_joint prefix="rear_left" origin="-0.220 0.250 0"/>
+  <xacro:wheel_joint prefix="rear_right" origin="-0.220 -0.250 0"/>
+
+  <!--############################## ARM JOINTS ########################################-->
+  <xacro:arm_joint prefix="arm_world" type="fixed" axis="0 0 1" parent="base_link" child="arm_world" originxyz="0.20 0.0 0.145" originrpy="0 0 0"/>
+  <xacro:arm_joint prefix="arm_base" type="continuous" axis="0 0 1" parent="arm_world" child="arm_base" originxyz="0.0 0.0 0.0" originrpy="0 0 0"/>
+  <xacro:arm_joint prefix="shoulder" type="continuous" axis="0 1 0" parent="arm_base" child="bicep" originxyz="-0.05166 0.0 0.20271" originrpy="0 0 1.5708"/>
+  <xacro:arm_joint prefix="bottom_wrist" type="continuous" axis="0 1 0" parent="bicep" child="bottom_wrist" originxyz="0.0 -0.05194 0.269" originrpy="0 0 0"/>
+  <xacro:arm_joint prefix="elbow" type="continuous" axis="0 0 1" parent="bottom_wrist" child="elbow" originxyz="0.0 0 0.13522" originrpy="0 0 0"/>
+  <xacro:arm_joint prefix="top_wrist" type="continuous" axis="0 1 0" parent="elbow" child="top_wrist" originxyz="0.0 0 0.20994" originrpy="0 0 0"/>
+
+  <!--############################# BASE TRANSMISSIONS #########################################-->
+  <xacro:base_transmission prefix="front_left"/>
+  <xacro:base_transmission prefix="front_right"/>
+  <xacro:base_transmission prefix="rear_left"/>
+  <xacro:base_transmission prefix="rear_right"/>
+
+  <!--############################# ARM TRANSMISSION ##################################-->
+  <xacro:arm_transmission prefix="arm_base"/>
+  <xacro:arm_transmission prefix="shoulder"/>
+  <xacro:arm_transmission prefix="bottom_wrist"/>
+  <xacro:arm_transmission prefix="elbow"/>
+  <xacro:arm_transmission prefix="top_wrist"/>
+
+  <!--############################# WHEEL FRICTIONS #########################################-->
+  <xacro:wheel_friction prefix="front_left"/>
+  <xacro:wheel_friction prefix="front_right"/>
+  <xacro:wheel_friction prefix="rear_left"/>
+  <xacro:wheel_friction prefix="rear_right"/>
+
+  <!--############################# GAZEBO #########################################-->
+  <xacro:gazebo_ros_control/>
+  <xacro:diff_drive_controller/>
+  <xacro:joint_state_publisher />
 
 </robot>

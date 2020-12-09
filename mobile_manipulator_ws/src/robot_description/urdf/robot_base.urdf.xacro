@@ -44,8 +44,6 @@
         </collision>
     </link>
 
-    
-
 
     <!--############################# Wheel Links #########################################-->
     <xacro:robot_wheel prefix="front_left"/>
@@ -74,5 +72,9 @@
     <xacro:wheel_friction prefix="rear_left"/>
     <xacro:wheel_friction prefix="rear_right"/>
 
+
+    <!--############################# Gazebo #########################################-->
+    <xacro:gazebo_ros_control/>
+    <xacro:diff_drive_controller/>
 
 </robot>
