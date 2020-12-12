@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: robot_description
+    relative_path: urdf/mobile_manipulator.urdf.xacro
+    xacro_args: "--inorder "
+  SRDF:
+    relative_path: config/mobile_manipulator.srdf
+  CONFIG:
+    author_name: antonio brandi
+    author_email: antonio.brandi@outlook.it
+    generated_timestamp: 1607696002

@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+
+<launch>
+
+	<arg name="launch_robot_1" default="true"/>
+	<arg name="launch_robot_2" default="false"/>
+	<arg name="launch_robot_3" default="false"/>
+    <arg name="robot_1_x_spawn" default="0"/>
+	<arg name="robot_1_y_spawn" default="0"/>
+	<arg name="robot_1_z_spawn" default="0"/>
+    <arg name="robot_2_x_spawn" default="1"/>
+	<arg name="robot_2_y_spawn" default="1"/>
+	<arg name="robot_2_z_spawn" default="0"/>
+    <arg name="robot_3_x_spawn" default="2"/>
+	<arg name="robot_3_y_spawn" default="2"/>
+	<arg name="robot_3_z_spawn" default="0"/>
+    <arg name="prefix" default="robot"/>
+    
+    <include file="$(find gazebo_ros)/launch/empty_world.launch"/>
+
+    <group if="$(arg launch_robot_1)" >
+        <include file="$(find robot_description)/launch/base_gazebo_control.launch">
+            <arg name="prefix" value="$(arg prefix)_1"/>
+            <arg name="x_spawn" value="$(arg robot_1_x_spawn)"/>
+            <arg name="y_spawn" value="$(arg robot_1_y_spawn)"/>
+            <arg name="z_spawn" value="$(arg robot_1_z_spawn)"/>
+        </include>
+    </group>
+
+    <group if="$(arg launch_robot_2)" ns="$(arg prefix)_2">
+        <include file="$(find robot_description)/launch/base_gazebo_control.launch">
+            <arg name="prefix" value="$(arg prefix)_2"/>
+            <arg name="x_spawn" value="$(arg robot_2_x_spawn)"/>
+            <arg name="y_spawn" value="$(arg robot_2_y_spawn)"/>
+            <arg name="z_spawn" value="$(arg robot_2_z_spawn)"/>
+        </include>
+    </group>
+
+    <group if="$(arg launch_robot_3)" ns="$(arg prefix)_3">
+        <include file="$(find robot_description)/launch/base_gazebo_control.launch">
+            <arg name="prefix" value="$(arg prefix)_3"/>
+            <arg name="x_spawn" value="$(arg robot_3_x_spawn)"/>
+            <arg name="y_spawn" value="$(arg robot_3_y_spawn)"/>
+            <arg name="z_spawn" value="$(arg robot_3_z_spawn)"/>
+        </include>
+    </group>
+
+</launch>
