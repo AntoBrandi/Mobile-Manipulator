@@ -20,11 +20,13 @@
     <arg name="prefix" default="robot"/>
     
 
-    <include file="$(find gazebo_ros)/launch/empty_world.launch"/>
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find robot_description)/worlds/postoffice.world"/>
+    </include>
 
     <group if="$(arg launch_robot_1)" ns="$(arg prefix)_1">
         <param name="tf_prefix" value="$(arg prefix)_1" />
-        <include file="$(find robot_description)/launch/one_robot_base.launch">
+        <include file="$(find robot_description)/launch/one_robot.launch">
             <arg name="prefix" value="$(arg prefix)_1"/>
             <arg name="x" value="$(arg robot_1_x)"/>
             <arg name="y" value="$(arg robot_1_x)"/>
@@ -34,7 +36,7 @@
 
     <group if="$(arg launch_robot_2)" ns="$(arg prefix)_2">
         <param name="tf_prefix" value="$(arg prefix)_2" />
-        <include file="$(find robot_description)/launch/one_robot_base.launch">
+        <include file="$(find robot_description)/launch/one_robot.launch">
             <arg name="prefix" value="$(arg prefix)_2"/>
             <arg name="x" value="$(arg robot_2_x)"/>
             <arg name="y" value="$(arg robot_2_x)"/>
@@ -44,7 +46,7 @@
 
     <group if="$(arg launch_robot_3)" ns="$(arg prefix)_3">
         <param name="tf_prefix" value="$(arg prefix)_3" />
-        <include file="$(find robot_description)/launch/one_robot_base.launch">
+        <include file="$(find robot_description)/launch/one_robot.launch">
             <arg name="prefix" value="$(arg prefix)_3"/>
             <arg name="x" value="$(arg robot_3_x)"/>
             <arg name="y" value="$(arg robot_3_x)"/>

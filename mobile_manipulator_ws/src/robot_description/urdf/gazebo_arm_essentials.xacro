@@ -5,7 +5,6 @@
   <xacro:macro name="gazebo_ros_control">
     <gazebo>
       <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-        <robotNamespace>/</robotNamespace>
         <controlPeriod>0.001</controlPeriod>
         <legacyModeNS>false</legacyModeNS>
       </plugin>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <arg name="prefix" default="robot"/>
+    <arg name="x" default="0"/>
+    <arg name="y" default="0"/>
+    <arg name="z" default="0"/>
+
+    <param name="/$(arg prefix)/robot_description" command="$(find xacro)/xacro --inorder $(find robot_description)/urdf/robot_base.urdf.xacro" />
+    <rosparam command="load" file="$(find robot_description)/config/control.yaml" ns="/$(arg prefix)"/>
+    
+    <node pkg="robot_state_publisher" type="robot_state_publisher"  name="$(arg prefix)_state_publisher" output="screen"/>
+    <node name="$(arg prefix)_controller_spawner" pkg="controller_manager" type="spawner"
+     args="--namespace=/$(arg prefix) robot_base_joint_publisher robot_base_velocity_controller"/>
+
+    <node name="spawn_urdf_$(arg prefix)" pkg="gazebo_ros" type="spawn_model" args="-x $(arg x) -y $(arg y) -z $(arg z) -param robot_description -urdf -model $(arg prefix)" />
+
+</launch>
